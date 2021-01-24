@@ -1,0 +1,88 @@
+<app-ui-card *ngIf="actionsComponent && actionsComponent.actions.length !== 0">
+  <app-ui-table-action [disabled]="true" [icon]="'menu'" [tooltip]="'global.table.actions'"></app-ui-table-action>
+
+  <ng-content select="app-ui-table-actions"></ng-content>
+</app-ui-card>
+
+<app-ui-card *ngIf="optionsComponent.filterable">
+  <ng-content select="app-ui-table-filter"></ng-content>
+</app-ui-card>
+
+<app-ui-card>
+  <app-ui-loader-shadow [loading]="(dataSource.loading$ | async) || loading"></app-ui-loader-shadow>
+  <table
+    mat-table
+    matSort
+    [dataSource]="dataSource"
+    class="table"
+    [matSortActive]="optionsComponent.defaultSort"
+    [matSortDirection]="optionsComponent.defaultSortDirection"
+  >
+    <ng-container *ngFor="let column of columnsComponent.columns" [matColumnDef]="column.field">
+      <ng-container *ngIf="column.sortable">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>
+          {{ column.displayName | translate }}
+        </th>
+      </ng-container>
+
+      <ng-container *ngIf="!column.sortable">
+        <th *matHeaderCellDef mat-header-cell>
+          {{ column.displayName | translate }}
+        </th>
+      </ng-container>
+
+      <ng-container *matCellDef="let element">
+        <td class="cell" mat-cell>
+          <ng-container *ngIf="column.template">
+            <ng-container *ngTemplateOutlet="column.template; context: { $implicit: element }"></ng-container>
+          </ng-container>
+
+          <ng-container *ngIf="!column.template" [ngSwitch]="column.type">
+            <ng-container *ngSwitchCase="'date'">
+              <span> {{ getCellValue(column, element) | payadmindate }} </span>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'money'">
+              <span> {{ getCellValue(column, element) | money }} </span>
+            </ng-container>
+
+            <ng-container *ngSwitchDefault>
+              <span> {{ getCellValue(column, element) }} </span>
+            </ng-container>
+          </ng-container>
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngFor="let actionColumn of columnsComponent.actions" [matColumnDef]="actionColumn.name">
+      <th *matHeaderCellDef mat-header-cell>
+        {{ actionColumn.displayName | translate }}
+      </th>
+
+      <ng-container *matCellDef="let element">
+        <td class="cell" mat-cell>
+          <app-ui-table-action
+            *ngIf="actionColumn.visibleWhen(element)"
+            [icon]="actionColumn.icon"
+            [tooltip]="actionColumn.tooltip"
+            [value]="element"
+            (click)="actionColumn.click.emit(element)"
+          ></app-ui-table-action>
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="getColumns()"></tr>
+    <tr mat-row *matRowDef="let row; columns: getColumns()"></tr>
+  </table>
+</app-ui-card>
+
+<app-ui-card *ngIf="optionsComponent?.paginable">
+  <mat-paginator
+    color="accent"
+    [pageSize]="defaultSettings.pageSize"
+    [pageSizeOptions]="[10, 20, 50]"
+    [showFirstLastButtons]="true"
+  >
+  </mat-paginator>
+</app-ui-card>

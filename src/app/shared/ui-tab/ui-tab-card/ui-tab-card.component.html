@@ -1,0 +1,12 @@
+<app-ui-card class="cardTabs primary">
+  <app-ui-tab [customRouting]="true">
+    <ng-content></ng-content>
+  </app-ui-tab>
+  <app-ui-card-below>
+    <app-ui-loader [loading]="loading"> </app-ui-loader>
+  </app-ui-card-below>
+</app-ui-card>
+
+<div [@animRoutes]="animationState">
+  <router-outlet (activate)="onActivate($event)"></router-outlet>
+</div>

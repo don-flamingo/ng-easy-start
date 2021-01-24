@@ -1,0 +1,21 @@
+@mixin ui-table-action-button($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .table-action-button {
+    app-ui-icon {
+      .mat-icon {
+        vertical-align: middle;
+        padding-bottom: 5px;
+      }
+    }
+  }
+
+  .table-action-button:hover {
+    cursor: pointer;
+    color: mat-color($accent);
+  }
+}

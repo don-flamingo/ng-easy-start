@@ -1,0 +1,15 @@
+:host {
+  width: 100%;
+}
+
+::ng-deep .loader {
+  transform: none !important;
+}
+
+@mixin ui-api-select($theme) {
+  $foreground: map-get($theme, foreground);
+
+  .filter {
+    color: mat-color($foreground, text);
+  }
+}

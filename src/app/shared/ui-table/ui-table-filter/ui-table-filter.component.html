@@ -1,0 +1,15 @@
+<form [formGroup]="formGroup">
+  <div fxLayout="row" fxLayoutGap="10px">
+    <div class="default-table-filter">
+      <app-ui-form-input [placeholder]="'global.search'" [formControlName]="'filter'"> </app-ui-form-input>
+    </div>
+
+    <div class="corner-table-filter">
+      <ng-content></ng-content>
+    </div>
+  </div>
+
+  <div class="footer-table-filter">
+    <ng-content select="[footertablefilter]"></ng-content>
+  </div>
+</form>

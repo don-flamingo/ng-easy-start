@@ -1,0 +1,7 @@
+<mat-slide-toggle
+  #matSlideToggle
+  [checked]="checked"
+  (change)="change.emit(toggle.checked)"
+>
+  <ng-content> </ng-content>
+</mat-slide-toggle>

@@ -1,0 +1,19 @@
+<app-ui-loader [loading]="loading"> </app-ui-loader>
+
+<div *ngIf="!loading">
+  <nav mat-tab-nav-bar mat-align-tabs="start">
+    <a
+      *ngFor="let tab of tabs"
+      mat-tab-link
+      [ngClass]="{ 'tab-item-activate': active(tab) }"
+      [routerLink]="tab.route"
+      class="tab-item"
+    >
+      <span *ngIf="!(aspectService.isHandset$ | async)"> {{ tab.displayTitle | translate }}</span>
+    </a>
+  </nav>
+
+  <div *ngIf="!customRouting" [@animRoutes]="animationState">
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<ng-container [formGroup]="formGroup">
+  <mat-form-field style="width: 100%" color="accent" [appearance]="settings.style">
+    <mat-label>
+      <ng-container *ngIf="dataSource.loading$ | async">
+        {{ 'global.loading' | translate }}
+      </ng-container>
+      <ng-container *ngIf="noResults && !(dataSource.loading$ | async)">
+        {{ 'global.no-results' | translate }}
+      </ng-container>
+      <ng-container *ngIf="!noResults && !(dataSource.loading$ | async)">
+        {{ placeholder | translate }}
+      </ng-container>
+    </mat-label>
+
+    <mat-select
+      #select
+      [placeholder]="placeholder | translate"
+      [formControlName]="formControlName"
+      (openedChange)="openedChange($event)"
+      msInfiniteScroll
+      (infiniteScroll)="getNextBatch()"
+      [complete]="completeData"
+    >
+      <app-ui-loader-shadow [loading]="dataSource.loading$ | async"></app-ui-loader-shadow>
+      <mat-form-field color="accent" appearance="fill" style="width: 100%">
+        <mat-label>{{ 'global.search' | translate }}</mat-label>
+        <input #filterControl matInput class="filter" />
+        <button
+          [color]="settings.color"
+          mat-button
+          *ngIf="formGroup.controls[formControlName].value"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="clearValue()"
+        >
+          <app-ui-icon [icon]="'close'"></app-ui-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-option *ngFor="let item of data" [value]="item">
+        <ng-container *ngIf="itemTemplate">
+          <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="!itemTemplate">
+          {{ item[name] | translate }}
+        </ng-container>
+      </mat-option>
+    </mat-select>
+
+    <mat-error>
+      <app-ui-form-errors [control]="formGroup.controls[formControlName]"></app-ui-form-errors>
+    </mat-error>
+  </mat-form-field>
+</ng-container>

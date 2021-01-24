@@ -1,0 +1,39 @@
+<ng-container *ngIf="formControlName" [formGroup]="formGroup">
+  <mat-form-field style="width: 100%" color="{{ FormSettings.color }}" appearance="{{ FormSettings.style }}">
+    <mat-label>{{ placeholder | translate }}</mat-label>
+    <input
+      #formInput
+      matInput
+      [placeholder]="placeholder | translate"
+      [formControlName]="formControlName"
+      [type]="type"
+    />
+    <div matSuffix fxLayout="row">
+      <button
+        *ngIf="details"
+        mat-icon-button
+        matSuffix
+        (click)="copyDetailsToCliboard()"
+        [attr.aria-label]="'Hide password'"
+        [AppUiTooltip]="details"
+      >
+        <app-ui-icon [icon]="'info'"></app-ui-icon>
+      </button>
+
+      <button
+        *ngIf="copy"
+        mat-icon-button
+        matSuffix
+        (click)="copyToCliboard()"
+        [attr.aria-label]="'Hide password'"
+        [AppUiTooltip]="'global.copy'"
+      >
+        <app-ui-icon [icon]="'content_copy'"></app-ui-icon>
+      </button>
+    </div>
+
+    <mat-error>
+      <app-ui-form-errors [control]="formGroup.controls[formControlName]"></app-ui-form-errors>
+    </mat-error>
+  </mat-form-field>
+</ng-container>

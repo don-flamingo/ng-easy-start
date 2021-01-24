@@ -1,0 +1,17 @@
+<ng-container *ngIf="control.hasError('required')">
+  {{ 'input.errors.required' | translate }}
+</ng-container>
+<ng-container *ngIf="control.hasError('minlength')">
+  {{ 'input.errors.minlength' | translate }}
+  {{ control.errors['minlength'].requiredLength }}
+</ng-container>
+<ng-container *ngIf="control.hasError('maxlength')">
+  {{ 'input.errors.maxlength' | translate }}
+  {{ control.errors['maxlength'].requiredLength }}
+</ng-container>
+<ng-container *ngIf="control.hasError('email')">
+  {{ 'input.errors.email' | translate }}
+</ng-container>
+<ng-container *ngIf="control.hasError('notSame')">
+  {{ 'input.errors.not-same' | translate }}
+</ng-container>

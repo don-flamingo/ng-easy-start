@@ -1,0 +1,17 @@
+@mixin ui-tab($theme) {
+  $accent: map-get($theme, accent);
+
+  .tab-item:hover {
+    color: mat-color($accent);
+  }
+
+  .tab-item-activate {
+    color: mat-color($accent, A700);
+    opacity: 1;
+  }
+}
+
+.tab {
+  margin: 0px;
+  justify-content: unset;
+}

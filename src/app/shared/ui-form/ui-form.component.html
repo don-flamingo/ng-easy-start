@@ -1,0 +1,39 @@
+<app-ui-loader-shadow [loading]="loading"> </app-ui-loader-shadow>
+
+<section [ngClass]="(aspectService.isHandset$ | async) ? 'mobile-form' : 'desktop-form'" class="dialog-form">
+  <h1 *ngIf="title" mat-dialog-title style="margin-bottom: 40px">
+    {{ title | translate }}
+  </h1>
+
+  <form
+    [formGroup]="formGroup"
+    fxLayout="column"
+    fxLayoutAlign="start start"
+    fxLayoutGap="10px"
+    (ngSubmit)="(confirmClicked)"
+    style="width: 100%"
+  >
+    <ng-content> </ng-content>
+
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" style="width: 100%">
+      <app-ui-button-raised
+        *ngIf="confirmClicked.observers.length !== 0"
+        class="confirm-btn"
+        [color]="'primary'"
+        [disabled]="!formGroup.valid || !changed"
+        (click)="confirmClicked.emit($event)"
+      >
+        {{ confirmTitle | translate }}
+      </app-ui-button-raised>
+      <app-ui-button-stroked
+        *ngIf="cancelClicked.observers.length !== 0"
+        class="cancel-btn"
+        (click)="cancelClicked.emit($event)"
+      >
+        {{ cancelTitle | translate }}
+      </app-ui-button-stroked>
+
+      <ng-content select="e-lab-ui-form-buttons"> </ng-content>
+    </div>
+  </form>
+</section>

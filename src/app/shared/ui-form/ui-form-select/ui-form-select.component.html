@@ -1,0 +1,19 @@
+<ng-container [formGroup]="formGroup">
+  <mat-form-field
+    color="accent"
+    [appearance]="settings.style"
+    style="width: 100%"
+  >
+    <mat-label>{{ placeholder | translate }}</mat-label>
+    <mat-select
+      #select
+      [placeholder]="placeholder | translate"
+      [formControlName]="formControlName"
+      color="accent"
+    >
+      <mat-option *ngFor="let item of data" [value]="item">
+        {{ item[name] | translate }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-container>

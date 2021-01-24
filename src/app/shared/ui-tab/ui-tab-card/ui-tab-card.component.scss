@@ -1,0 +1,21 @@
+@mixin ui-tab-card($theme) {
+  $primary: map-get($theme, primary);
+
+  .cardTabs {
+    mat-card {
+      background: mat-color($primary) !important;
+
+      .mat-tab-header {
+        border-bottom: 0ch;
+      }
+
+      .mat-tab-link {
+        color: white;
+      }
+    }
+  }
+
+  .mdf {
+    background: mat-color($primary);
+  }
+}
